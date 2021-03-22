@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="vitalij.robin.alarstudiostest.ui.login.LoginViewModel" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/default_margin_four"
+        android:layout_marginEnd="@dimen/default_margin_four"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/loginTextInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/loginInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/your_login"
+                android:imeOptions="actionNext"
+                android:nextFocusDown="@+id/passwordTextInput"
+                android:singleLine="true"
+                android:text="@={viewModel.login}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordTextInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_double">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:nextFocusDown="@+id/logInButton"
+                android:singleLine="true"
+                android:text="@={viewModel.password}" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logInButton"
+            style="@style/DefaultButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/default_margin_double"
+            android:text="@string/enter"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/passwordTextInput"
+            app:layout_constraintStart_toStartOf="@+id/passwordTextInput"
+            app:layout_constraintTop_toBottomOf="@+id/passwordTextInput" />
+
+    </LinearLayout>
+
+</layout>

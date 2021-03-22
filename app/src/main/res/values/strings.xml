@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Alarstudios Test</string>
+
+    <!--Login-->
+    <string name="your_login">Ваш логин</string>
+    <string name="password">Пароль</string>
+    <string name="come_in">Войти</string>
+    <string name="incorrect_username_or_password_entered">Введен неверный логин или пароль</string>
+    <string name="enter">Войти</string>
+
+    <string name="retry">Попробовать еще раз</string>
+    <string name="unknown_error">Что-то пошло не так</string>
+    <string name="server_error">Сервер вернул ошибку</string>
+    <string name="repeat">Повторить</string>
+    <string name="network_error">Нет подключения к интернету</string>
+    <string name="network_description_error">Пожалуйста проверьте интернет-соединение и попробуйте еще</string>
 </resources>
