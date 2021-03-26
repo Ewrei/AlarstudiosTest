@@ -1,0 +1,19 @@
+ext.props = [:]
+
+def props = [:]
+
+def adalProdProperty = getConfigProperty("prod.properties")
+def stageProdProperty = getConfigProperty("stage.properties")
+
+props.mapbox_key_prod = adalProdProperty['mapbox_key']
+
+props.mapbox_key_stage = stageProdProperty['mapbox_key']
+
+ext.props = props
+
+def getConfigProperty(fileName){
+    def propertiesFile = rootProject.file(fileName)
+    def properties = new Properties()
+    properties.load(new FileInputStream(propertiesFile))
+    return properties
+}

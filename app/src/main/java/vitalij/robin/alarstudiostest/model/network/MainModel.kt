@@ -1,6 +1,7 @@
 package vitalij.robin.alarstudiostest.model.network
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 class MainModel(
     @SerializedName("id") var id: String,
@@ -8,7 +9,7 @@ class MainModel(
     @SerializedName("country") var country: String,
     @SerializedName("lat") var lat: Double,
     @SerializedName("lon") var lon: Double
-) {
+): Serializable {
     var position: Int = 0
 
     var imageUrl: String = ""

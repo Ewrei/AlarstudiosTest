@@ -19,14 +19,6 @@ fun AppCompatActivity.replaceFragment(@IdRes where: Int, fragment: Fragment) {
         .commit()
 }
 
-fun AppCompatActivity.replaceStackFragment(@IdRes where: Int, fragment: Fragment) {
-    supportFragmentManager
-        .beginTransaction()
-        .replace(where, fragment, fragment.javaClass.simpleName)
-        .addToBackStack(null)
-        .commit()
-}
-
 fun AppCompatActivity.setToolbarTitle(@StringRes titleRes: Int) {
     supportActionBar?.setTitle(titleRes)
 }

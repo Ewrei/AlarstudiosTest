@@ -10,14 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
 import vitalij.robin.alarstudiostest.AlarStudiosApplication
 import vitalij.robin.alarstudiostest.R
-import vitalij.robin.alarstudiostest.common.extensions.observeToError
-import vitalij.robin.alarstudiostest.common.extensions.observeToProgressBar
-import vitalij.robin.alarstudiostest.common.extensions.setToolbarTitle
+import vitalij.robin.alarstudiostest.common.extensions.*
 import vitalij.robin.alarstudiostest.ui.common.BaseFragment
-import vitalij.robin.alarstudiostest.ui.main.MainActivity.Companion.CODE
 import vitalij.robin.alarstudiostest.ui.main.adapter.MainAdapter
+import vitalij.robin.alarstudiostest.ui.map.MapBoxActivity
 import javax.inject.Inject
-
 
 class MainFragment : BaseFragment() {
 
@@ -27,9 +24,9 @@ class MainFragment : BaseFragment() {
     private lateinit var viewModel: MainViewModel
 
     private val mainAdapter =
-        MainAdapter(onclick = { model ->
-            //TODO
-        })
+        MainAdapter { model ->
+            startActivity(MapBoxActivity.newInstance(context, model))
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +50,6 @@ class MainFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
-        initToolbar()
         initializeList()
 
         arguments?.let {
@@ -63,6 +59,8 @@ class MainFragment : BaseFragment() {
         viewModel.liveData.observe(viewLifecycleOwner, {
             mainAdapter.submitList(it)
         })
+
+        setToolbarTitle(R.string.main_screen)
     }
 
     private fun setListeners() {
@@ -76,11 +74,8 @@ class MainFragment : BaseFragment() {
         recyclerView.adapter = mainAdapter
     }
 
-    private fun initToolbar() {
-        setToolbarTitle(R.string.main)
-    }
-
     companion object {
+        private const val CODE = "code"
 
         fun newInstance(code: String) = MainFragment().apply {
             arguments = Bundle().apply {

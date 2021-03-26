@@ -2,6 +2,7 @@
     <string name="app_name">Alarstudios Test</string>
 
     <!--Login-->
+    <string name="login_to_the_application">Вход в приложение</string>
     <string name="your_login">Ваш логин</string>
     <string name="password">Пароль</string>
     <string name="come_in">Войти</string>
@@ -15,5 +16,12 @@
     <string name="network_error">Нет подключения к интернету</string>
     <string name="network_description_error">Пожалуйста проверьте интернет-соединение и попробуйте еще</string>
 
-    <string name="main">Главный</string>
+    <string name="main_screen">Главный экран</string>
+    <string name="map">Карта</string>
+
+    <string name="id">Id</string>
+    <string name="name">Name</string>
+    <string name="country">Country</string>
+    <string name="lat">lat</string>
+    <string name="lon">lon</string>
 </resources>

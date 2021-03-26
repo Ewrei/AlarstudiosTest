@@ -27,7 +27,6 @@ class MainViewModel(
 
     private lateinit var myOrdersDataSource: MainDataSource
 
-
     fun loadData(code: String) {
         val config = PagedList.Config.Builder()
             .setInitialLoadSizeHint(PAGE_SIZE)

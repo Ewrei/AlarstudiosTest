@@ -10,11 +10,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_login.*
 import vitalij.robin.alarstudiostest.AlarStudiosApplication
-import vitalij.robin.alarstudiostest.ui.main.MainActivity
 import vitalij.robin.alarstudiostest.R
 import vitalij.robin.alarstudiostest.common.extensions.*
 import vitalij.robin.alarstudiostest.databinding.FragmentLoginBinding
 import vitalij.robin.alarstudiostest.ui.common.BaseFragment
+import vitalij.robin.alarstudiostest.ui.main.MainFragment
 import javax.inject.Inject
 
 class LoginFragment : BaseFragment() {
@@ -50,10 +50,12 @@ class LoginFragment : BaseFragment() {
                 }
 
                 openMainActivity = {
-                    activity?.finish()
-                    context?.startActivity(
-                        MainActivity.newInstance(context, it)
-                    )
+                    //  activity?.finish()
+                    replaceFragment(R.id.container, MainFragment.newInstance(it ?: ""))
+
+//                    context?.startActivity(
+//                        MainActivity.newInstance(context, it)
+//                    )
                 }
             }
     }
@@ -67,6 +69,8 @@ class LoginFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setListeners()
         setClickButton(false)
+
+        setToolbarTitle(R.string.login_to_the_application)
     }
 
     private fun setListeners() {

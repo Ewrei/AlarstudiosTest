@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="half_default_margin">4dp</dimen>
     <dimen name="default_margin">8dp</dimen>
     <dimen name="default_margin_double">16dp</dimen>
     <dimen name="default_margin_four">32dp</dimen>
-    <dimen name="default_margin_x8">64dp</dimen>
 
-    <dimen name="half_default_padding">4dp</dimen>
     <dimen name="default_padding">8dp</dimen>
-    <dimen name="default_padding_double">16dp</dimen>
-    <dimen name="default_padding_four">32dp</dimen>
 
     <dimen name="default_elevation">8dp</dimen>
 

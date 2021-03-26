@@ -36,7 +36,6 @@
                 android:layout_marginStart="@dimen/default_margin"
                 android:text="@{item.name}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@android:color/black"
                 tools:text="name" />
 
         </TableRow>
