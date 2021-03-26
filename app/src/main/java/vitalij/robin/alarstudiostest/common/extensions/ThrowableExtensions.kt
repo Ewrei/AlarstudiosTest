@@ -4,9 +4,9 @@ import retrofit2.HttpException
 import vitalij.robin.alarstudiostest.R
 import vitalij.robin.alarstudiostest.utils.ResourceProvider
 import java.net.UnknownHostException
-import vitalij.robin.alarstudiostest.model.ErrorModel as ErrorModel1
+import vitalij.robin.alarstudiostest.model.ErrorModel as ErrorModel
 
-fun Throwable?.errorLoginMessage(resourceProvider: ResourceProvider): String {
+fun Throwable?.errorMessage(resourceProvider: ResourceProvider): String {
     return when (this) {
         is UnknownHostException -> {
             resourceProvider.getString(R.string.network_description_error)
@@ -23,40 +23,34 @@ fun Throwable?.errorLoginMessage(resourceProvider: ResourceProvider): String {
     }
 }
 
-fun Throwable?.getError(resourceProvider: ResourceProvider): ErrorModel1 {
+fun Throwable?.getError(): ErrorModel {
     return when (this) {
         is UnknownHostException -> {
-            ErrorModel1(
+            ErrorModel(
                 R.string.network_description_error,
                 R.drawable.ic_wifi,
-                null,
-                true
+                null
             )
         }
         is HttpException -> {
-            ErrorModel1(
+            ErrorModel(
                 R.string.server_error,
-                R.drawable.ic_wifi,
-                null,
-                true
+                R.drawable.ic_unknowwn_error,
+                null
             )
         }
         is IllegalArgumentException -> {
-            // resourceProvider.getString(R.string.unknown_error)
-            ErrorModel1(
-                R.string.server_error,
-                R.drawable.ic_wifi,
-                null,
-                true
+            ErrorModel(
+                R.string.unknown_error,
+                R.drawable.ic_unknowwn_error,
+                null
             )
         }
         else -> {
-            // resourceProvider.getString(R.string.unknown_error)
-            ErrorModel1(
-                R.string.server_error,
-                R.drawable.ic_wifi,
-                null,
-                true
+            ErrorModel(
+                R.string.unknown_error,
+                R.drawable.ic_unknowwn_error,
+                null
             )
         }
     }

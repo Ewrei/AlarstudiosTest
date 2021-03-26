@@ -20,9 +20,7 @@ abstract class BaseFragment : Fragment(), ProgressBarController, ErrorController
     ) {
         context?.let { context ->
             errorView.setVisibility(true)
-            errorText.text = context.getString(
-                errorModel.textResourceId
-            )
+            errorText.text = errorModel.errorTitle ?: context.getString(errorModel.textResourceId)
 
             errorImage.setImageDrawable(
                 ContextCompat.getDrawable(
@@ -30,12 +28,6 @@ abstract class BaseFragment : Fragment(), ProgressBarController, ErrorController
                     errorModel.imageResourceId
                 )
             )
-            errorModel.descriptionResourceId?.let {
-                errorDescription.setVisibility(true)
-                errorDescription.setText(errorModel.descriptionResourceId)
-            }
-
-            errorResolveButton.setVisibility(errorModel.isButtonVisible)
         }
     }
 

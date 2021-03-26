@@ -42,16 +42,6 @@
             android:layout_gravity="center"
             tools:src="@drawable/img_error_500" />
 
-        <TextView
-            android:id="@+id/errorDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/default_margin_double"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginEnd="@dimen/default_margin_double"
-            android:gravity="center" />
-
         <com.google.android.material.button.MaterialButton
             android:id="@+id/errorResolveButton"
             style="@style/DefaultButton"

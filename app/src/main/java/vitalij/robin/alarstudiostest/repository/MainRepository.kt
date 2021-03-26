@@ -7,6 +7,8 @@ import vitalij.robin.alarstudiostest.api.UnauthorizedRequestsApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private const val IMAGE_URL = "http://api.worldoftanks.ru/static/2.66.0/wot/encyclopedia/achievement/big/crucialShotMedal.png"
+
 @Singleton
 class MainRepository @Inject constructor(
     private val authorizedRequestsApi: UnauthorizedRequestsApi
@@ -15,9 +17,9 @@ class MainRepository @Inject constructor(
     fun getMain(code: String, page: Int) = authorizedRequestsApi.getData(code, page)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread()).flatMap {
-            it.data.forEach {
-                it.imageUrl = "http://api.worldoftanks.ru/static/2.66.0/wot/encyclopedia/achievement/big/crucialShotMedal.png"
+            it.data?.forEach {
+                it.imageUrl = IMAGE_URL
             }
-            return@flatMap Single.just(it.data)
+            return@flatMap Single.just(it)
         }
 }

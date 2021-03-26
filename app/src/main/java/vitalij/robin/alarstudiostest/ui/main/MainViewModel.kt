@@ -22,7 +22,8 @@ class MainViewModel(
 
     lateinit var liveData: LiveData<PagedList<MainModel>>
 
-    val isEmpty = ObservableBoolean(false)
+    lateinit var openDialog: (title: String) -> Unit
+
     val isProgressBarVisibility = ObservableBoolean(false)
 
     private lateinit var myOrdersDataSource: MainDataSource
@@ -35,28 +36,32 @@ class MainViewModel(
             .setEnablePlaceholders(false)
             .build()
 
-        myOrdersDataSource = MainDataSource(mainRepository, { status, errorThrowable ->
-            when (status) {
-                Status.LOADING -> {
-                    progressBarVisibility.postValue(true)
-                    errorVisibility.postValue(false)
+        myOrdersDataSource = MainDataSource(
+            mainRepository = mainRepository,
+            resourceProvider = resourceProvider,
+            setStatus = { status, errorThrowable ->
+                when (status) {
+                    Status.LOADING -> {
+                        progressBarVisibility.postValue(true)
+                        errorVisibility.postValue(false)
+                    }
+                    Status.ERROR -> {
+                        progressBarVisibility.postValue(false)
+                        errorThrowable?.let {
+                            errorModel = it
+                        }
+                        errorVisibility.postValue(true)
+                    }
+                    Status.SUCCESS -> {
+                        progressBarVisibility.postValue(false)
+                    }
                 }
-                Status.EMPTY -> {
-                    progressBarVisibility.postValue(false)
-                    isEmpty.set(true)
-                }
-                Status.ERROR -> {
-                    progressBarVisibility.postValue(false)
-                    errorModel = errorThrowable.getError(resourceProvider)
-                    errorVisibility.postValue(true)
-                }
-                Status.SUCCESS -> {
-                    progressBarVisibility.postValue(false)
-                }
-            }
-        }, {
-            isProgressBarVisibility.set(it)
-        }, code)
+            },
+            openDialog = openDialog,
+            setLoading = {
+                isProgressBarVisibility.set(it)
+            }, code = code
+        )
 
         liveData = initializedPagedListBuilder(config).build()
     }

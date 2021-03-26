@@ -49,13 +49,8 @@ class LoginFragment : BaseFragment() {
                     context?.showDialog(it)
                 }
 
-                openMainActivity = {
-                    //  activity?.finish()
-                    replaceFragment(R.id.container, MainFragment.newInstance(it ?: ""))
-
-//                    context?.startActivity(
-//                        MainActivity.newInstance(context, it)
-//                    )
+                openMainScreen = {
+                    replaceFragment(R.id.container, MainFragment.newInstance(it))
                 }
             }
     }

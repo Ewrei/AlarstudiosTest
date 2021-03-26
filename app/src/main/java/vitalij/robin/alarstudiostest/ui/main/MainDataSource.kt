@@ -4,13 +4,21 @@ import androidx.paging.PageKeyedDataSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import vitalij.robin.alarstudiostest.R
+import vitalij.robin.alarstudiostest.common.extensions.errorMessage
+import vitalij.robin.alarstudiostest.common.extensions.getError
+import vitalij.robin.alarstudiostest.model.ErrorModel
+import vitalij.robin.alarstudiostest.model.enums.ServerResponseStatus
 import vitalij.robin.alarstudiostest.model.enums.Status
 import vitalij.robin.alarstudiostest.model.network.MainModel
 import vitalij.robin.alarstudiostest.repository.MainRepository
+import vitalij.robin.alarstudiostest.utils.ResourceProvider
 
 class MainDataSource constructor(
     private val mainRepository: MainRepository,
-    private val setStatus: (status: Status, throwable: Throwable?) -> Unit,
+    private val resourceProvider: ResourceProvider,
+    private val setStatus: (status: Status, errorModel: ErrorModel?) -> Unit,
+    private val openDialog: (title: String) -> Unit,
     private val setLoading: (isLoading: Boolean) -> Unit,
     private val code: String
 ) : PageKeyedDataSource<Int, MainModel>() {
@@ -26,26 +34,31 @@ class MainDataSource constructor(
         mainRepository.getMain(code, 1)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ list ->
-                var position = 1
-                list.forEach {
-                    it.position = position
-                    position++
-                }
+            .subscribe({ mainResponse ->
+                if (mainResponse.status == ServerResponseStatus.OK.id) {
+                    var position = 1
+                    mainResponse.data?.forEach {
+                        it.position = position
+                        position++
+                    }
 
-                if (list.isNotEmpty()) {
                     setStatus(Status.SUCCESS, null)
+                    callback.onResult(
+                        mainResponse.data ?: arrayListOf(),
+                        null,
+                        2
+                    )
                 } else {
-                    setStatus(Status.EMPTY, null)
+                    setStatus(
+                        Status.ERROR, ErrorModel(
+                            R.string.unknown_error,
+                            R.drawable.ic_unknowwn_error,
+                            mainResponse.status
+                        )
+                    )
                 }
-
-                callback.onResult(
-                    list,
-                    null,
-                    2
-                )
             }, {
-                setStatus(Status.ERROR, it)
+                setStatus(Status.ERROR, it.getError())
             })
             .let(disposables::add)
     }
@@ -59,27 +72,33 @@ class MainDataSource constructor(
         setStatus(Status.LOADING, null)
 
         mainRepository.getMain(code, 1)
-            .subscribe({ list ->
-                var position = 1
-                list.forEach {
-                    it.position = position
-                    position++
-                }
+            .subscribe({ mainResponse ->
+                if (mainResponse.status == ServerResponseStatus.OK.id) {
+                    var position = 1
+                    mainResponse.data?.forEach {
+                        it.position = position
+                        position++
+                    }
 
-                if (list.isNotEmpty()) {
                     setStatus(Status.SUCCESS, null)
-                } else {
-                    setStatus(Status.EMPTY, null)
-                }
 
-                callback.onResult(
-                    list,
-                    null,
-                    2
-                )
+                    callback.onResult(
+                        mainResponse.data ?: arrayListOf(),
+                        null,
+                        2
+                    )
+                } else {
+                    setStatus(
+                        Status.ERROR, ErrorModel(
+                            R.string.unknown_error,
+                            R.drawable.ic_unknowwn_error,
+                            mainResponse.status
+                        )
+                    )
+                }
 
             }, {
-                setStatus(Status.ERROR, it)
+                setStatus(Status.ERROR, it.getError())
             })
             .let(disposables::add)
     }
@@ -90,16 +109,20 @@ class MainDataSource constructor(
             setLoading(true)
         }
         mainRepository.getMain(code, params.key)
-            .subscribe({ list ->
+            .subscribe({ mainResponse ->
                 var position = PAGE_SIZE * (params.key - 1)
-                list.forEach {
+                mainResponse.data?.forEach {
                     position++
                     it.position = position
                 }
 
                 setLoading(false)
-                callback.onResult(list, if (list.size == PAGE_SIZE) params.key + 1 else null)
+                callback.onResult(
+                    mainResponse.data ?: arrayListOf(),
+                    if (mainResponse.data?.size == PAGE_SIZE) params.key + 1 else null
+                )
             }, {
+                openDialog(it.errorMessage(resourceProvider))
                 setLoading(false)
             })
             .let(disposables::add)
@@ -107,17 +130,18 @@ class MainDataSource constructor(
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, MainModel>) {
         mainRepository.getMain(code, params.key)
-            .subscribe({ list ->
+            .subscribe({ mainResponse ->
                 var position = PAGE_SIZE * params.key
-                list.forEach {
+                mainResponse.data?.forEach {
                     position--
                     it.position = position
                 }
 
-                callback.onResult(list, params.key - 1)
+                callback.onResult(mainResponse.data ?: arrayListOf(), params.key - 1)
 
             }, {
-                //TODO Add error handling
+                openDialog(it.errorMessage(resourceProvider))
+                setLoading(false)
             })
             .let(disposables::add)
     }

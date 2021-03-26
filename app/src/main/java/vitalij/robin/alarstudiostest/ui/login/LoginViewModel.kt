@@ -4,7 +4,8 @@ import androidx.databinding.ObservableField
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import vitalij.robin.alarstudiostest.R
-import vitalij.robin.alarstudiostest.common.extensions.errorLoginMessage
+import vitalij.robin.alarstudiostest.common.extensions.errorMessage
+import vitalij.robin.alarstudiostest.model.enums.ServerResponseStatus
 import vitalij.robin.alarstudiostest.repository.LoginRepository
 import vitalij.robin.alarstudiostest.ui.common.BaseViewModel
 import vitalij.robin.alarstudiostest.utils.ResourceProvider
@@ -15,7 +16,7 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
     lateinit var openDialog: (message: String) -> Unit
-    lateinit var openMainActivity: (code: String?) -> Unit
+    lateinit var openMainScreen: (code: String?) -> Unit
 
     val login = ObservableField("")
     val password = ObservableField("")
@@ -26,14 +27,14 @@ class LoginViewModel(
             .observeOn(AndroidSchedulers.mainThread())
             .let(::setupActivityProgressShow)
             .subscribe({ loginStatusModel ->
-                if (loginStatusModel.status == "error") {
+                if (loginStatusModel.status == ServerResponseStatus.ERROR.id) {
                     openDialog(resourceProvider.getString(R.string.incorrect_username_or_password_entered))
-                } else if (loginStatusModel.status == "ok") {
-                    openMainActivity(loginStatusModel.code)
+                } else if (loginStatusModel.status == ServerResponseStatus.OK.id) {
+                    openMainScreen(loginStatusModel.code)
                 }
             }, {
                 openDialog(
-                    it.errorLoginMessage(resourceProvider)
+                    it.errorMessage(resourceProvider)
                 )
             })
             .let(disposables::add)

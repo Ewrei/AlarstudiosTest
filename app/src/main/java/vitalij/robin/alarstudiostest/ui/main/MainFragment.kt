@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_recycler_view.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import vitalij.robin.alarstudiostest.AlarStudiosApplication
 import vitalij.robin.alarstudiostest.R
 import vitalij.robin.alarstudiostest.common.extensions.*
+import vitalij.robin.alarstudiostest.databinding.FragmentMainBinding
 import vitalij.robin.alarstudiostest.ui.common.BaseFragment
 import vitalij.robin.alarstudiostest.ui.main.adapter.MainAdapter
 import vitalij.robin.alarstudiostest.ui.map.MapBoxActivity
@@ -31,7 +33,17 @@ class MainFragment : BaseFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ) = inflater.inflate(R.layout.fragment_recycler_view, container, false)
+    ): View {
+        val dataBinding: FragmentMainBinding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_main,
+            container,
+            false
+        )
+        dataBinding.lifecycleOwner = this@MainFragment
+        dataBinding.viewModel = viewModel
+        return dataBinding.root
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +51,10 @@ class MainFragment : BaseFragment() {
             .get(MainViewModel::class.java).apply {
                 observeToProgressBar(this@MainFragment)
                 observeToError(this@MainFragment)
+
+                openDialog = {
+                    context?.showDialog(it)
+                }
             }
     }
 
@@ -77,7 +93,7 @@ class MainFragment : BaseFragment() {
     companion object {
         private const val CODE = "code"
 
-        fun newInstance(code: String) = MainFragment().apply {
+        fun newInstance(code: String?) = MainFragment().apply {
             arguments = Bundle().apply {
                 putString(CODE, code)
             }
