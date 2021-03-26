@@ -13,4 +13,9 @@
 
     <dimen name="default_elevation">8dp</dimen>
 
+    <dimen name="image_size">96dp</dimen>
+
+    <item name="circular_stroke_width" format="float" type="dimen">5.0</item>
+    <item name="circular_center_radius" format="float" type="dimen">30.0</item>
+
 </resources>

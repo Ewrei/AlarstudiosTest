@@ -14,4 +14,6 @@
     <string name="repeat">Повторить</string>
     <string name="network_error">Нет подключения к интернету</string>
     <string name="network_description_error">Пожалуйста проверьте интернет-соединение и попробуйте еще</string>
+
+    <string name="main">Главный</string>
 </resources>

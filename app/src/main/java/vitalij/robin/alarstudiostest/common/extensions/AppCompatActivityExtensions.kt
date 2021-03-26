@@ -1,6 +1,7 @@
 package vitalij.robin.alarstudiostest.common.extensions
 
 import androidx.annotation.IdRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
@@ -26,8 +27,6 @@ fun AppCompatActivity.replaceStackFragment(@IdRes where: Int, fragment: Fragment
         .commit()
 }
 
-fun AppCompatActivity.setToolbarTitle(title: String?) {
-    supportActionBar?.let {
-        it.title = title
-    }
+fun AppCompatActivity.setToolbarTitle(@StringRes titleRes: Int) {
+    supportActionBar?.setTitle(titleRes)
 }

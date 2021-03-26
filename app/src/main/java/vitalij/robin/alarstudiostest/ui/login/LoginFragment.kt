@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.fragment_login.*
 import vitalij.robin.alarstudiostest.AlarStudiosApplication
-import vitalij.robin.alarstudiostest.MainActivity
+import vitalij.robin.alarstudiostest.ui.main.MainActivity
 import vitalij.robin.alarstudiostest.R
 import vitalij.robin.alarstudiostest.common.extensions.*
 import vitalij.robin.alarstudiostest.databinding.FragmentLoginBinding
@@ -52,7 +52,7 @@ class LoginFragment : BaseFragment() {
                 openMainActivity = {
                     activity?.finish()
                     context?.startActivity(
-                        MainActivity.newInstance(context)
+                        MainActivity.newInstance(context, it)
                     )
                 }
             }

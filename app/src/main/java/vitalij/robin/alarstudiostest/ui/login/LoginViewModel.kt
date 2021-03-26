@@ -15,7 +15,7 @@ class LoginViewModel(
 ) : BaseViewModel() {
 
     lateinit var openDialog: (message: String) -> Unit
-    lateinit var openMainActivity: () -> Unit
+    lateinit var openMainActivity: (code: String?) -> Unit
 
     val login = ObservableField("")
     val password = ObservableField("")
@@ -29,7 +29,7 @@ class LoginViewModel(
                 if (loginStatusModel.status == "error") {
                     openDialog(resourceProvider.getString(R.string.incorrect_username_or_password_entered))
                 } else if (loginStatusModel.status == "ok") {
-                    openMainActivity()
+                    openMainActivity(loginStatusModel.code)
                 }
             }, {
                 openDialog(

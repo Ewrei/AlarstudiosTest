@@ -1,4 +1,4 @@
-package vitalij.robin.alarstudiostest.model
+package vitalij.robin.alarstudiostest.model.network
 
 import com.google.gson.annotations.SerializedName
 

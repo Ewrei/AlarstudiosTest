@@ -84,4 +84,11 @@ dependencies {
 
     def retrofit2_adapter_version = "2.7.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_adapter_version"
+
+    def paging_version = "1.0.1"
+    implementation "android.arch.paging:runtime:$paging_version"
+
+    def swiperefreshlayout_version = "1.1.0"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout_version"
+
 }
