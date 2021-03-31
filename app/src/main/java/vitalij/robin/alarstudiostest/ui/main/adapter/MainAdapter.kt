@@ -39,7 +39,6 @@ class MainAdapter(val onclick: (mainModel: MainModel) -> Unit) :
                 return oldItem.position == newItem.position
             }
 
-            @SuppressLint("DiffUtilEquals")
             override fun areContentsTheSame(
                 oldItem: MainModel,
                 newItem: MainModel

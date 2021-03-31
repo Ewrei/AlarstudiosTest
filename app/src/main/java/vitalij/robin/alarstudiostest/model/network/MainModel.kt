@@ -3,7 +3,7 @@ package vitalij.robin.alarstudiostest.model.network
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class MainModel(
+data class MainModel(
     @SerializedName("id") var id: String,
     @SerializedName("name") var name: String,
     @SerializedName("country") var country: String,
